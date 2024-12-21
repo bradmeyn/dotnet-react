@@ -14,7 +14,6 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as authSchemasImport } from './routes/(auth)/schemas'
 import { Route as appProtectedImport } from './routes/(app)/_protected'
 import { Route as authRegisterIndexImport } from './routes/(auth)/register/index'
 import { Route as authLoginIndexImport } from './routes/(auth)/login/index'
@@ -35,12 +34,6 @@ const appRoute = appImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const authSchemasRoute = authSchemasImport.update({
-  id: '/(auth)/schemas',
-  path: '/schemas',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -99,13 +92,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof appProtectedImport
       parentRoute: typeof appRoute
-    }
-    '/(auth)/schemas': {
-      id: '/(auth)/schemas'
-      path: '/schemas'
-      fullPath: '/schemas'
-      preLoaderRoute: typeof authSchemasImport
-      parentRoute: typeof rootRoute
     }
     '/(auth)/login/': {
       id: '/(auth)/login/'
@@ -166,7 +152,6 @@ const appRouteWithChildren = appRoute._addFileChildren(appRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof appProtectedRouteWithChildren
-  '/schemas': typeof authSchemasRoute
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
   '/clients': typeof appProtectedClientsIndexRoute
@@ -175,7 +160,6 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof appProtectedRouteWithChildren
-  '/schemas': typeof authSchemasRoute
   '/login': typeof authLoginIndexRoute
   '/register': typeof authRegisterIndexRoute
   '/clients': typeof appProtectedClientsIndexRoute
@@ -187,7 +171,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/(app)': typeof appRouteWithChildren
   '/(app)/_protected': typeof appProtectedRouteWithChildren
-  '/(auth)/schemas': typeof authSchemasRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/register/': typeof authRegisterIndexRoute
   '/(app)/_protected/clients/': typeof appProtectedClientsIndexRoute
@@ -196,21 +179,14 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/schemas'
-    | '/login'
-    | '/register'
-    | '/clients'
-    | '/dashboard'
+  fullPaths: '/' | '/login' | '/register' | '/clients' | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/schemas' | '/login' | '/register' | '/clients' | '/dashboard'
+  to: '/' | '/login' | '/register' | '/clients' | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/(app)'
     | '/(app)/_protected'
-    | '/(auth)/schemas'
     | '/(auth)/login/'
     | '/(auth)/register/'
     | '/(app)/_protected/clients/'
@@ -221,7 +197,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   appRoute: typeof appRouteWithChildren
-  authSchemasRoute: typeof authSchemasRoute
   authLoginIndexRoute: typeof authLoginIndexRoute
   authRegisterIndexRoute: typeof authRegisterIndexRoute
 }
@@ -229,7 +204,6 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   appRoute: appRouteWithChildren,
-  authSchemasRoute: authSchemasRoute,
   authLoginIndexRoute: authLoginIndexRoute,
   authRegisterIndexRoute: authRegisterIndexRoute,
 }
@@ -246,7 +220,6 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/(app)",
-        "/(auth)/schemas",
         "/(auth)/login/",
         "/(auth)/register/"
       ]
@@ -267,9 +240,6 @@ export const routeTree = rootRoute
         "/(app)/_protected/clients/",
         "/(app)/_protected/dashboard/"
       ]
-    },
-    "/(auth)/schemas": {
-      "filePath": "(auth)/schemas.ts"
     },
     "/(auth)/login/": {
       "filePath": "(auth)/login/index.tsx"

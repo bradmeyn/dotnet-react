@@ -11,7 +11,9 @@
       "@/*": ["./src/*"],
       "@components/*": ["./src/lib/components/*"],
       "@hooks/*": ["./src/lib/hooks/*"],
-      "@utils/*": ["./src/lib/utils/*"]
+      "@utils/*": ["./src/lib/utils/*"],
+      "@schemas/*": ["./src/lib/schemas/*"],
+      "@services/*": ["./src/lib/services/*"],
     }
   }
 }

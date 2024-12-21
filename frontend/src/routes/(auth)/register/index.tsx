@@ -18,17 +18,31 @@ import {
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Building2, Mail } from "lucide-react";
+
+// Form
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { registerSchema } from "../schemas";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+
+import { registerSchema } from "@schemas/auth";
+import { registerPractice } from "@services/auth";
 
 export const Route = createFileRoute("/(auth)/register/")({
   component: RegisterPage,
 });
 
 function RegisterPage() {
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: registerPractice,
+    onSuccess: () => {
+      navigate({ to: "/login" });
+    },
+  });
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
@@ -41,6 +55,10 @@ function RegisterPage() {
       confirmPassword: "",
     },
   });
+
+  async function onSubmit(data: z.infer<typeof registerSchema>) {
+    mutation.mutate(data);
+  }
 
   return (
     <div className="min-h-screen bg-muted">
